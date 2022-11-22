@@ -38,7 +38,7 @@ else
   echo Please enter Tailscale AUTH key":"
   echo For more info visit "https://tailscale.com/kb/1085/auth-keys/"
   read TSAUTHKEY
-  tailscale up --authkey $TSAUTHKEY --advertise-exit-node
+  tailscale up --authkey $TSAUTHKEY --advertise-exit-node --hostname "secure-vpr"
   mkdir -p "/opt/PurpleComputing/"
   mkdir -p "/opt/PurpleComputing/Tailscale"
   echo "Tailscale deployed successfully!"
