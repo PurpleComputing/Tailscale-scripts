@@ -9,6 +9,11 @@ This script is designed to be run on a fresh Linode instance to deploy a Virtual
 #### Options
 
 * None
+
+You will be prompted for a Tailscale Auth Key, see here for more information: [https://tailscale.com/kb/1085/auth-keys/](https://tailscale.com/kb/1085/auth-keys/)
+
+Remember to disable key expiry and to enable as an exit node in Tailscale admin.
+
 ##### Command to execute
 
 ```
