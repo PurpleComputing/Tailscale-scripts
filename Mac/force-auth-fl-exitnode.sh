@@ -117,8 +117,9 @@ if [ "$PING2" -eq "1" ]; then
 else
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 	sleep 3
-	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --exit-node="secure-vpr" --exit-node-allow-lan-access --reset
+	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --reset
 	echo 
+ 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --hostname "$TSUSER" --exit-node="secure-vpr" --exit-node-allow-lan-access
 fi
 
 # PING TAILSCALE VPR AFTER FIRST ATTEMPT
@@ -136,8 +137,9 @@ if [ "$PING3" -eq "1" ]; then
 else
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 	sleep 3
-	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --exit-node="secure-vpr" --exit-node-allow-lan-access --reset
+	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --reset
 	echo 
+ 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --hostname "$TSUSER" --exit-node="secure-vpr" --exit-node-allow-lan-access
 fi
 
 echo "End: *** PURPLE LAUNCH TAILSCALE FORCE AUTH SCRIPT ***"
