@@ -15,5 +15,10 @@ runAsUser() {
 	exit 1
   fi
 }
-
 runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale logout
+
+runAsUser rm -rf ~/Library/Containers/io.tailscale.ipn.macsys
+runAsUser rm -rf ~/Library/Containers/io.tailscale.ipn.macsys.login-item-helper
+runAsUser rm -rf ~/Library/Containers/io.tailscale.ipn.macsys.share-extension
+sleep 3
+sudo rm -rf /Library/Tailscale/
