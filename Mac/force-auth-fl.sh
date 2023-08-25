@@ -119,9 +119,9 @@ else
 	echo NO AUTH AUTHENTICATING...
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale logout
 	killall Tailscale
-	sleep 5
+	sleep 2
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
-	sleep 20
+	sleep 3
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --reset
 	echo 
 fi
@@ -142,9 +142,9 @@ else
 	echo 
 	echo NO AUTH AUTHENTICATING...
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale logout
-	sleep 5
+	sleep 2
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
-	sleep 20
+	sleep 3
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --reset
 	echo 
 fi
