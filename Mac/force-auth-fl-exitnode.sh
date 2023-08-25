@@ -115,14 +115,9 @@ if [ "$PING2" -eq "1" ]; then
 	exit 0
 
 else
-	echo 
-	echo NO AUTH AUTHENTICATING...
-	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale logout
-	killall Tailscale
-	sleep 2
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 	sleep 3
-	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --exit-node=secure-vpr --exit-node-allow-lan-access --reset
+	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --exit-node="secure-vpr" --exit-node-allow-lan-access --reset
 	echo 
 fi
 
