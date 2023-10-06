@@ -77,6 +77,7 @@ sleep 12
 # PING GOOGLE FOR NEXT CHECK
 PING1=$(ping -c 1 "$IP1" | grep -c from)
 
+echo Using "$IP2" as Tailscale connected check
 # PING TAILSCALE VPR FOR FIRST ATTEMPT
 PING2=$(ping -c 1 "$IP2" | grep -c from)
 
@@ -112,11 +113,11 @@ else
 	killall Tailscale
 	sleep 5
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
-	sleep 20
+	sleep 7
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER"
 	echo 
 fi
-
+sleep 25
 # PING TAILSCALE VPR AFTER FIRST ATTEMPT
 PING3=$(ping -c 1 "$IP2" | grep -c from)
 
