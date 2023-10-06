@@ -31,7 +31,7 @@ echo "Execution Record for $DT0"
 # SOURCES USER INFO FOR RUNASUSER COMMAND BELOW
 currentUser=$( echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }' )
 uid=$(id -u "$currentUser")
-TSUSER=$(echo $TSUNAME | sed 's/_//g')
+TSUSER=$(echo $TSUNAME | sed 's/_//g' | sed 's/ //g')
 
 # SIMPLIFIES RUN AS USER COMMAND FOR STANDARD USER ACCOUNTS WITHOUT SUDO RIGHTS
 runAsUser() {
