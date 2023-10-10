@@ -109,7 +109,7 @@ if [ "$PING2" -eq "1" ]; then
 
 else
 	echo 
-	echo NO AUTH AUTHENTICATING...
+	echo ROUND"1:"NO AUTH AUTHENTICATING...
 	killall Tailscale
 	sleep 5
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
@@ -132,7 +132,7 @@ if [ "$PING3" -eq "1" ]; then
 	exit 0
 else
 	echo 
-	echo NO AUTH AUTHENTICATING...
+	echo ROUND"2:" NO AUTH AUTHENTICATING WITH RESET...
 	sleep 5
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 	sleep 20
