@@ -76,6 +76,11 @@ else
   exit 1
 fi
 
+runAsUser defaults write io.tailscale.ipn.macos TailscaleOnboardingSeen 1
+runAsUser defaults write io.tailscale.ipn.macos TailscaleStartOnLogin 1
+
+sleep 3
+
 # OPENS TAILSCALE BEFORE CHECKS
 runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 
@@ -116,17 +121,37 @@ if [ "$PING2" -eq "1" ]; then
 
 else
 	echo 
-	echo NO AUTH AUTHENTICATING...
-	# runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale logout
-	# killall Tailscale
-	# sleep 2
+	echo CHECK 1 of 3 NO AUTH AUTHENTICATING...
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 	sleep 3
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER"
 	echo 
 fi
 
-sleep 12
+sleep 25
+
+# TAILSCALE ALREADY AUTHED CHECK
+if [ "$PING2" -eq "1" ]; then
+	echo 
+	echo Server $IP2 is reachable, internet is working
+	echo and the user is already authenticated
+	echo 
+	echo NO INTERVENTION WAS NEEDED
+	echo 
+	echo "End: *** PURPLE LAUNCH TAILSCALE FORCE AUTH SCRIPT ***"
+	echo 
+	exit 0
+
+else
+	echo 
+	echo CHECK 2 of 3 NO AUTH AUTHENTICATING...
+	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
+	sleep 3
+	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER"
+	echo 
+fi
+
+sleep 25
 
 # PING TAILSCALE VPR AFTER FIRST ATTEMPT
 PING3=$(ping -c 1 "$IP2" | grep -c from)
@@ -142,12 +167,11 @@ if [ "$PING3" -eq "1" ]; then
 	exit 0
 else
 	echo 
-	echo NO AUTH AUTHENTICATING...
-	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale logout
+	echo CHECK 3 of 3 NO AUTH AUTHENTICATING WITH RESET...
 	sleep 2
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 	sleep 3
-	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER"
+	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --reset
 	echo 
 fi
 
