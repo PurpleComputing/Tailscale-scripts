@@ -37,13 +37,13 @@ else
   echo IP RULES ADDED
   echo
   echo Please enter Tailscale AUTH key":"
-  echo For more info visit "https://tailscale.com/kb/1085/auth-keys/"
+  echo For more info visit "https://tailscale.com/kb/1085/auth-keys/"":"
   read TSAUTHKEY
   tailscale up --authkey $TSAUTHKEY --advertise-exit-node --hostname "secure-vpr"
   mkdir -p "/opt/PurpleComputing/"
   mkdir -p "/opt/PurpleComputing/Tailscale"
   echo "Tailscale deployed successfully!"
-  echo Please disable Key expiry and enable as an Exit Node in Tailscale admin under machines
+  echo "Please enable as an Exit Node in Tailscale admin under machines, edit route settings"
 fi
 crontab <<EOF
 0 5 * * * /usr/bin/tailscale update --yes
