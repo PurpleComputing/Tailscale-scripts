@@ -45,7 +45,17 @@ else
   echo "Tailscale deployed successfully!"
   echo "Please enable as an Exit Node in Tailscale admin under machines, edit route settings"
 fi
+echo
+echo "Enabling Auto Update:"
 crontab <<EOF
 0 5 * * * /usr/bin/tailscale update --yes
 EOF
-
+echo DONE
+echo
+echo "Enabling Firewall:"
+ufw allow in on tailscale0
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw enable
+sudo ufw status
+echo DONE
