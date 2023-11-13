@@ -45,4 +45,7 @@ else
   echo "Tailscale deployed successfully!"
   echo Please disable Key expiry and enable as an Exit Node in Tailscale admin under machines
 fi
+crontab <<EOF
+0 5 * * * /usr/bin/tailscale update --yes
+EOF
 
