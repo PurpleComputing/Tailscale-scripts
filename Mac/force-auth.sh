@@ -62,9 +62,10 @@ else
   echo 
   exit 1
 fi
-
+defaults write io.tailscale.ipn.macos ManagedByOrganizationName "Purple Computing"  
 # OPENS TAILSCALE BEFORE CHECKS
 runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
+
 
 # GIVES TAILSCALE TIME TO OPEN AND CONNECT IF EMPLOYEE AUTHED
 sleep 20
