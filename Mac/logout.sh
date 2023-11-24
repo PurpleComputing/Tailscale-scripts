@@ -15,6 +15,7 @@ runAsUser() {
 	exit 1
   fi
 }
+defaults write io.tailscale.ipn.macos ManagedByOrganizationName "Purple Computing"  
 runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale logout
 sleep 2
 killall Tailscale
