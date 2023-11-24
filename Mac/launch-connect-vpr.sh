@@ -27,6 +27,7 @@ runAsUser() {
   fi
 }
 
+defaults write io.tailscale.ipn.macos ManagedByOrganizationName "Purple Computing"  
 
 sudo -u $(stat -f "%Su" /dev/console) osascript <<EOF
 tell application "Tailscale"
