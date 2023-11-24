@@ -26,6 +26,7 @@ runAsUser() {
 	exit 1
   fi
 }
+defaults write io.tailscale.ipn.macos ManagedByOrganizationName "Purple Computing"  
 
 TSUSER=$(echo $TSUNAME | sed 's/_//g' | sed 's/ //g')
 
