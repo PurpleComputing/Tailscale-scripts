@@ -78,6 +78,7 @@ fi
 
 runAsUser defaults write io.tailscale.ipn.macos TailscaleOnboardingSeen 1
 runAsUser defaults write io.tailscale.ipn.macos TailscaleStartOnLogin 1
+defaults write io.tailscale.ipn.macos ManagedByOrganizationName "Purple Computing"  
 
 sleep 3
 
