@@ -18,6 +18,7 @@ echo "*** PURPLE LAUNCH TAILSCALE SCRIPT ***"
 
 currentUser=$( echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }' )
 uid=$(id -u "$currentUser")
+defaults write io.tailscale.ipn.macos ManagedByOrganizationName "Purple Computing"  
 runAsUser() {  
   if [ "$currentUser" != "loginwindow" ]; then
 	launchctl asuser "$uid" sudo -u "$currentUser" "$@"
