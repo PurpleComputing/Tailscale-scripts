@@ -42,7 +42,7 @@ if [ "$USEMODELANDSERIAL" == "Y" ]; then
 		TSUSER=$(echo "$currentUser-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
 	else
 		TSUSER=$(echo "$TSUNAME-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
-  		OLDTSUSER=$(echo "$TSUNAME" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+  		OLDTSUSER=$(echo "$TSUNAME" | tr 'A-Z' 'a-z' | sed 's/ //g')
 	fi
 else
 	echo "• Organisation uses only Username in Hostname"
