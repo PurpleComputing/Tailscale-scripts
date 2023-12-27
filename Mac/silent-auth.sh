@@ -21,7 +21,7 @@ APPNA="Tailscale"
 DIR="/Applications/$APPNA.app"
 IP1=8.8.8.8
 IP2=$(echo "$TSSERVERIP")
-DT0=$(date)
+DT0=$(date "+DATE: %D%nTIME: %T")
 echo "Execution Record for $DT0"
 
 # SOURCES USER INFO FOR RUNASUSER COMMAND BELOW
