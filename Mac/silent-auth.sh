@@ -173,7 +173,7 @@ if [ "$PING3" -eq "1" ]; then
 	exit 0
 else
 	echo 
-	echo ATTEMPT"2:" NO AUTH... AUTHENTICATING WITH TS RESET...
+	echo ATTEMPT"2:" NO AUTH... AUTHING WITH RESET...
 	sleep 5
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 	if [[ -z "$HOOKHELPER" ]]; then
