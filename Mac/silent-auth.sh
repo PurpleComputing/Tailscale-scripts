@@ -16,10 +16,6 @@ echo "Start: *** PURPLE LAUNCH TAILSCALE SILENT AUTH SCRIPT ***"
 # NOTICE: MAC SPECIFIC SCRIPT, USING MOSYLE VARIABLES
 ###############################################################################################
 
-# VARIABLES IN USE FROM CONSOLE
-# TAILSCALEAUTHKEY
-# TSSERVERIP
-
 # DEFAULT VARIABLES
 APPNA="Tailscale"
 DIR="/Applications/$APPNA.app"
@@ -37,10 +33,20 @@ PRETTY_MODEL=${MODEL_INFO/"Model Name: "/}
 SERIAL_INFO=$(system_profiler SPHardwareDataType | grep "Serial Number (system)" | sed 's/^ *//')
 PRETTY_SERIAL=${SERIAL_INFO/"Serial Number (system): "/}
 
-if [[ -z "$TSUNAME" ]]; then
-	TSUSER=$(echo "$currentUser-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+if [ "$USEMODELANDSERIAL" == "Y" ]; then
+	echo "Including Model and Serial in Hostname"
+	if [[ -z "$TSUNAME" ]]; then
+		TSUSER=$(echo "$currentUser-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+	else
+		TSUSER=$(echo "$TSUNAME-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+	fi
 else
-	TSUSER=$(echo "$TSUNAME-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+	echo "Only using Username in Hostname"
+	if [[ -z "$TSUNAME" ]]; then
+		TSUSER=$(echo "$currentUser" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+	else
+		TSUSER=$(echo "$TSUNAME" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+	fi
 fi
 
 # SIMPLIFIES RUN AS USER COMMAND FOR STANDARD USER ACCOUNTS WITHOUT SUDO RIGHTS
@@ -83,13 +89,14 @@ sleep 3
 runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 
 # GIVES TAILSCALE TIME TO OPEN AND CONNECT IF EMPLOYEE AUTHED
-sleep 12
+sleep 6
 
 # PING GOOGLE FOR NEXT CHECK
 PING1=$(ping -c 1 "$IP1" | grep -c from)
+sleep 2
 
-echo Using "$IP2" as Tailscale connected check
 # PING TAILSCALE VPR FOR FIRST ATTEMPT
+echo Using "$IP2" as Tailscale connected check
 PING2=$(ping -c 1 "$IP2" | grep -c from)
 
 # INTERNET CHECK
@@ -109,8 +116,8 @@ fi
 # TAILSCALE ALREADY AUTHED CHECK
 if [ "$PING2" -eq "1" ]; then
 	echo 
-	echo Server $IP2 is reachable, internet is working
-	echo and the user is already authenticated
+	echo "Server $IP2 is reachable, and the internet is working."
+	echo "and the user is already authenticated" 
 	echo 
 	echo NO INTERVENTION WAS NEEDED
 	echo 
@@ -122,13 +129,13 @@ else
 	echo 
 	echo ROUND"1:"NO AUTH AUTHENTICATING...
 	killall Tailscale
-	sleep 5
+	sleep 3
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
-	sleep 7
+	sleep 6
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER"
 	echo 
 fi
-sleep 25
+sleep 15
 # PING TAILSCALE VPR AFTER THE FIRST ATTEMPT
 PING3=$(ping -c 1 "$IP2" | grep -c from)
 
@@ -136,19 +143,20 @@ PING3=$(ping -c 1 "$IP2" | grep -c from)
 if [ "$PING3" -eq "1" ]; then
 	echo 
 	echo Server $IP2 is now reachable 
-	echo "internet is working, and the user is authenticated"
+	echo "Internet is working, and the user is authenticated."
 	echo 
 	echo "End: *** PURPLE LAUNCH TAILSCALE FORCE AUTH SCRIPT ***"
 	echo 
 	exit 0
 else
 	echo 
-	echo ROUND"2:" NO AUTH AUTHENTICATING WITH RESET...
+	echo ROUND"2:" NO AUTH... AUTHENTICATING WITH RESET...
 	sleep 5
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 	if [[ -z "$HOOKHELPER" ]]; then
 		echo No Webhooks to Fire. Continuing...
 	else
+ 		Cleaning up Existing Node
 		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$TSUSER"'"}'
 		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$TSUNAME"'"}'
 	fi
