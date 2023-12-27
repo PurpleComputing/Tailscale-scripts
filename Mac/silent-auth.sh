@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "Start: *** PURPLE LAUNCH TAILSCALE SILENT AUTH SCRIPT ***"
+echo "Start: *** TAILSCALE SILENT AUTH SCRIPT ***"
 ###############################################################################################
 #
 #                                                        ******
@@ -180,6 +180,6 @@ else
 	echo 
 fi
 
-echo "End: *** PURPLE LAUNCH TAILSCALE FORCE AUTH SCRIPT ***"
+echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
 
 exit 0
