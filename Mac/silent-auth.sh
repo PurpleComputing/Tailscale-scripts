@@ -35,14 +35,14 @@ PRETTY_SERIAL=${SERIAL_INFO/"Serial Number (system): "/}
 
 
 if [ "$USEMODELANDSERIAL" == "Y" ]; then
-	echo "Including Model and Serial in Hostname"
+	echo "• Organisation includes Model and Serial in Hostname"
 	if [[ -z "$TSUNAME" ]]; then
 		TSUSER=$(echo "$currentUser-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
 	else
 		TSUSER=$(echo "$TSUNAME-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
 	fi
 else
-	echo "Only using Username in Hostname"
+	echo "• Organisation uses only Username in Hostname"
 	if [[ -z "$TSUNAME" ]]; then
 		TSUSER=$(echo "$currentUser" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
 	else
@@ -56,9 +56,9 @@ runAsUser() {
 	launchctl asuser "$uid" sudo -u "$currentUser" "$@"
   else
   	echo 
-	echo "no user logged in"
+	echo "• No user is logged in"
 	echo 
-	echo "End: *** PURPLE LAUNCH TAILSCALE FORCE AUTH SCRIPT ***"
+	echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
 	echo 
 	exit 1
   fi
@@ -75,7 +75,7 @@ else
   echo 
   echo "$APPNA is not installed."
   echo 
-  echo "End: *** PURPLE LAUNCH TAILSCALE FORCE AUTH SCRIPT ***"
+  echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
   echo 
   exit 1
 fi
@@ -97,7 +97,7 @@ PING1=$(ping -c 1 "$IP1" | grep -c from)
 sleep 2
 
 # PING TAILSCALE VPR FOR FIRST ATTEMPT
-echo Using "$IP2" as Tailscale connected check
+echo Tailscale Ping Address":" "$IP2"
 PING2=$(ping -c 1 "$IP2" | grep -c from)
 
 # INTERNET CHECK
@@ -108,7 +108,7 @@ else
 	echo 
 	echo NO INTERNET... Exit..
 	echo 
-	echo "End: *** PURPLE LAUNCH TAILSCALE FORCE AUTH SCRIPT ***"
+	echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
 	echo 
 	exit 1
 fi
@@ -128,7 +128,7 @@ if [ "$PING2" -eq "1" ]; then
   	echo "Hostname: $TSMHostname"
    	echo "IP: $TSMIP"
 	echo 
-	echo "End: *** PURPLE LAUNCH TAILSCALE FORCE AUTH SCRIPT ***"
+	echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
 	echo 
 	exit 0
 
@@ -159,7 +159,7 @@ if [ "$PING3" -eq "1" ]; then
   	echo "Hostname: $TSMHostname"
    	echo "IP: $TSMIP"
     	echo
-	echo "End: *** PURPLE LAUNCH TAILSCALE FORCE AUTH SCRIPT ***"
+	echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
 	echo 
 	exit 0
 else
