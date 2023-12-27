@@ -31,7 +31,17 @@ echo "Execution Record for $DT0"
 # SOURCES USER INFO FOR RUNASUSER COMMAND BELOW
 currentUser=$( echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }' )
 uid=$(id -u "$currentUser")
-TSUSER=$(echo $TSUNAME | sed 's/_//g' | sed 's/ //g')
+
+MODEL_INFO=$(system_profiler SPHardwareDataType | grep "Model Name" | sed 's/^ *//')
+PRETTY_MODEL=${MODEL_INFO/"Model Name: "/}
+SERIAL_INFO=$(system_profiler SPHardwareDataType | grep "Serial Number (system)" | sed 's/^ *//')
+PRETTY_SERIAL=${SERIAL_INFO/"Serial Number (system): "/}
+
+if [[ -z "$TSUNAME" ]]; then
+	TSUSER=$(echo "$currentUser-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+else
+	TSUSER=$(echo "$TSUNAME-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+fi
 
 # SIMPLIFIES RUN AS USER COMMAND FOR STANDARD USER ACCOUNTS WITHOUT SUDO RIGHTS
 runAsUser() {
@@ -119,14 +129,14 @@ else
 	echo 
 fi
 sleep 25
-# PING TAILSCALE VPR AFTER FIRST ATTEMPT
+# PING TAILSCALE VPR AFTER THE FIRST ATTEMPT
 PING3=$(ping -c 1 "$IP2" | grep -c from)
 
 # TAILSCALE FINAL AUTH CHECK
 if [ "$PING3" -eq "1" ]; then
 	echo 
 	echo Server $IP2 is now reachable 
-	echo internet is working and the user is authenticated
+	echo "internet is working, and the user is authenticated"
 	echo 
 	echo "End: *** PURPLE LAUNCH TAILSCALE FORCE AUTH SCRIPT ***"
 	echo 
@@ -136,8 +146,13 @@ else
 	echo ROUND"2:" NO AUTH AUTHENTICATING WITH RESET...
 	sleep 5
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
-  curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$TSUSER"'"}'
-	sleep 5
+	if [[ -z "$HOOKHELPER" ]]; then
+		echo No Webhooks to Fire. Continuing...
+	else
+		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$TSUSER"'"}'
+		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$TSUNAME"'"}'
+	fi
+ 	sleep 5
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --reset
 	echo 
 fi
