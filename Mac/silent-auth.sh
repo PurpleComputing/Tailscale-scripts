@@ -143,6 +143,7 @@ else
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 	sleep 6
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER"
+  	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale switch "$TAILSCALENET"
 	echo 
 fi
 sleep 15
