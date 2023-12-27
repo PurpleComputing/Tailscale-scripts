@@ -113,7 +113,7 @@ fi
 
 # TAILSCALE ALREADY AUTHED CHECK
 if [ "$PING2" -eq "1" ]; then
-	echo "• Server $IP2 is reachable"
+	echo "• Tailscale Ping Address: $IP2 is reachable"
  	echo "• Internet is working"
  	TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
   	TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
@@ -146,7 +146,7 @@ PING3=$(ping -c 1 "$IP2" | grep -c from)
 
 # TAILSCALE FINAL AUTH CHECK
 if [ "$PING3" -eq "1" ]; then
-	echo "• Server $IP2 is reachable"
+	echo "• Tailscale Ping Address: $IP2 is reachable"
  	echo "• Internet is working"
  	TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
   	TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
