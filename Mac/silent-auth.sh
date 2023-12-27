@@ -23,6 +23,7 @@ IP1=8.8.8.8
 IP2=$(echo "$TSSERVERIP")
 DT0=$(date "+%D %T")
 echo "Execution Record for $DT0"
+echo 
 
 # SOURCES USER INFO FOR RUNASUSER COMMAND BELOW
 currentUser=$( echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }' )
