@@ -42,6 +42,7 @@ if [ "$USEMODELANDSERIAL" == "Y" ]; then
 		TSUSER=$(echo "$currentUser-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
 	else
 		TSUSER=$(echo "$TSUNAME-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+  		OLDTSUSER=$(echo "$TSUNAME" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
 	fi
 else
 	echo "• Organisation uses only Username in Hostname"
@@ -49,6 +50,7 @@ else
 		TSUSER=$(echo "$currentUser" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
 	else
 		TSUSER=$(echo "$TSUNAME" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+  		OLDTSUSER=$(echo "$TSUNAME" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
 	fi
 fi
 
@@ -179,7 +181,7 @@ else
 	else
 		echo "• Cleaning up Existing Node"
 		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$TSUSER"'"}'
-		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$TSUNAME"'"}'
+		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$OLDTSUSER"'"}'
 	fi
 	 sleep 5
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --reset
