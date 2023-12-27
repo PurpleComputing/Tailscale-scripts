@@ -174,9 +174,9 @@ else
 	sleep 5
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 	if [[ -z "$HOOKHELPER" ]]; then
-		echo No Webhooks to Fire. Continuing...
+		echo "• No Webhooks to Fire. Continuing..."
 	else
-		 Cleaning up Existing Node
+		echo "• Cleaning up Existing Node"
 		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$TSUSER"'"}'
 		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$TSUNAME"'"}'
 	fi
