@@ -39,18 +39,18 @@ PRETTY_SERIAL=${SERIAL_INFO/"Serial Number (system): "/}
 if [ "$USEMODELANDSERIAL" == "Y" ]; then
 	echo "• Organisation includes Model and Serial in Hostname"
 	if [[ -z "$TSUNAME" ]]; then
-		TSUSER=$(echo "$currentUser-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+		TSUSER=$(echo "$currentUser-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'A-Z' 'a-z' | sed 's/ /-/g')
 	else
-		TSUSER=$(echo "$TSUNAME-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+		TSUSER=$(echo "$TSUNAME-$PRETTY_MODEL-$PRETTY_SERIAL" | tr 'A-Z' 'a-z' | sed 's/ /-/g')
   		OLDTSUSER=$(echo "$TSUNAME" | tr 'A-Z' 'a-z' | sed 's/ //g')
 	fi
 else
 	echo "• Organisation uses only Username in Hostname"
 	if [[ -z "$TSUNAME" ]]; then
-		TSUSER=$(echo "$currentUser" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+		TSUSER=$(echo "$currentUser" | tr 'A-Z' 'a-z' | sed 's/ /-/g')
 	else
-		TSUSER=$(echo "$TSUNAME" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
-  		OLDTSUSER=$(echo "$TSUNAME" | tr 'a-z' 'A-Z' | sed 's/ /-/g')
+		TSUSER=$(echo "$TSUNAME" | tr 'A-Z' 'a-z' | sed 's/ /-/g')
+  		OLDTSUSER=$(echo "$TSUNAME" | tr 'A-Z' 'a-z' | sed 's/ //g')
 	fi
 fi
 
