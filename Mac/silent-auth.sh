@@ -33,6 +33,7 @@ PRETTY_MODEL=${MODEL_INFO/"Model Name: "/}
 SERIAL_INFO=$(system_profiler SPHardwareDataType | grep "Serial Number (system)" | sed 's/^ *//')
 PRETTY_SERIAL=${SERIAL_INFO/"Serial Number (system): "/}
 
+
 if [ "$USEMODELANDSERIAL" == "Y" ]; then
 	echo "Including Model and Serial in Hostname"
 	if [[ -z "$TSUNAME" ]]; then
@@ -117,9 +118,16 @@ fi
 if [ "$PING2" -eq "1" ]; then
 	echo 
 	echo "Server $IP2 is reachable, and the internet is working."
-	echo "and the user is already authenticated" 
+ 	TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
+  	TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
+   	TSMIP="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $1}')"
+	echo "and the user is already authenticated." 
 	echo 
 	echo NO INTERVENTION WAS NEEDED
+ 	echo
+ 	echo "Tailnet: $TSMNetName"
+  	echo "Hostname: $TSMHostname"
+   	echo "IP: $TSMIP"
 	echo 
 	echo "End: *** PURPLE LAUNCH TAILSCALE FORCE AUTH SCRIPT ***"
 	echo 
@@ -142,9 +150,16 @@ PING3=$(ping -c 1 "$IP2" | grep -c from)
 # TAILSCALE FINAL AUTH CHECK
 if [ "$PING3" -eq "1" ]; then
 	echo 
-	echo Server $IP2 is now reachable 
+	echo Server $IP2 is now reachable
+ 	TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
+  	TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
+   	TSMIP="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $1}')"
 	echo "Internet is working, and the user is authenticated."
-	echo 
+ 	echo
+ 	echo "Tailnet: $TSMNetName"
+  	echo "Hostname: $TSMHostname"
+   	echo "IP: $TSMIP"
+    	echo
 	echo "End: *** PURPLE LAUNCH TAILSCALE FORCE AUTH SCRIPT ***"
 	echo 
 	exit 0
