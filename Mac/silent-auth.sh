@@ -124,7 +124,17 @@ if [ "$PING2" -eq "1" ]; then
 	 TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
 	  TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
 	   TSMIP="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $1}')"
-	echo "• User is Authenticated" 
+	echo "• User is Authenticated"
+ 	if [ "$TSEXITNODE" == "N" ]; then
+		echo "• Exit Node NOT Enforced"
+	else
+		if [[ -z "$TSEXITNODE" ]]; then
+			echo "• Exit Node NOT Enforced"
+		else
+			echo "• Exit Node Enforced"
+			runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --exit-node=$TSEXITNODE
+		fi
+	fi
 	echo 
 	echo NO INTERVENTION WAS NEEDED
 	 echo
@@ -159,8 +169,18 @@ if [ "$PING3" -eq "1" ]; then
 	 TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
 	  TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
 	   TSMIP="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $1}')"
-	echo "• User is Authenticated" 
-	echo 
+	echo "• User is Authenticated"
+	if [ "$TSEXITNODE" == "N" ]; then
+		echo "• Exit Node NOT Enforced"
+	else
+		if [[ -z "$TSEXITNODE" ]]; then
+			echo "• Exit Node NOT Enforced"
+		else
+			echo "• Exit Node Enforced"
+			runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --exit-node=$TSEXITNODE
+		fi
+	fi
+ 	echo 
 	echo "ATTEMPT 1:" AUTHENTICATED SUCCESSFULLY
 	echo
 	echo "Tailnet: $TSMNetName"
@@ -174,7 +194,7 @@ if [ "$PING3" -eq "1" ]; then
 else
 	echo 
 	echo ATTEMPT"2:" NO AUTH... AUTHING WITH RESET...
-	sleep 5
+	sleep 2.5
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 	if [[ -z "$HOOKHELPER" ]]; then
 		echo "• No Webhooks to Fire. Continuing..."
@@ -183,11 +203,24 @@ else
 		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$TSUSER"'"}'
 		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$OLDTSUSER"'"}'
 	fi
-	 sleep 5
+	sleep 2.5
+  	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER"
+   	sleep 1.5
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale login --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER"
 	echo 
 fi
-
+ 	
+if [ "$TSEXITNODE" == "N" ]; then
+	echo "• Exit Node NOT Enforced"
+else
+	if [[ -z "$TSEXITNODE" ]]; then
+	 echo "• Exit Node NOT Enforced"
+	else
+	 echo "• Exit Node Enforced"
+	 runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --exit-node=$TSEXITNODE
+	fi
+fi
+ 
 echo "End: TAILSCALE SILENT AUTH SCRIPT"
 echo "____________________________________________"
 
