@@ -148,7 +148,7 @@ else
   	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale switch "$TAILSCALENET"
 	echo 
 fi
-sleep 15
+sleep 7
 # PING TAILSCALE VPR AFTER THE FIRST ATTEMPT
 PING3=$(ping -c 1 "$IP2" | grep -c from)
 
@@ -162,10 +162,10 @@ if [ "$PING3" -eq "1" ]; then
 	echo "• User is Authenticated" 
 	echo 
 	echo "ATTEMPT 1:" AUTHENTICATED SUCCESSFULLY
-	 echo
-	 echo "Tailnet: $TSMNetName"
-	  echo "Hostname: $TSMHostname"
-	   echo "IP: $TSMIP"
+	echo
+	echo "Tailnet: $TSMNetName"
+	echo "Hostname: $TSMHostname"
+	echo "IP: $TSMIP"
 	echo 
 	echo "End: TAILSCALE SILENT AUTH SCRIPT"
 	echo "____________________________________________"
@@ -179,12 +179,12 @@ else
 	if [[ -z "$HOOKHELPER" ]]; then
 		echo "• No Webhooks to Fire. Continuing..."
 	else
-		echo "• Cleaning up Existing Node"
+		echo "• Cleaning up Existing Node in TS Admin Portal"
 		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$TSUSER"'"}'
 		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$OLDTSUSER"'"}'
 	fi
 	 sleep 5
-	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --reset
+	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale login --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER"
 	echo 
 fi
 
