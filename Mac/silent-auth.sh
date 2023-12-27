@@ -119,11 +119,12 @@ fi
 
 # TAILSCALE ALREADY AUTHED CHECK
 if [ "$PING2" -eq "1" ]; then
+	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --hostname "$TSUSER"
 	echo "• Tailscale Ping Address: $IP2 is reachable"
-	 echo "• Internet is working"
-	 TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
-	  TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
-	   TSMIP="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $1}')"
+	echo "• Internet is working"
+	TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
+	TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
+	TSMIP="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $1}')"
 	echo "• User is Authenticated"
  	if [ "$TSEXITNODE" == "N" ]; then
 		echo "• Exit Node NOT Enforced"
@@ -156,6 +157,8 @@ else
 	sleep 6
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER"
   	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale switch "$TAILSCALENET"
+   	sleep 1
+    	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --hostname "$TSUSER"
 	echo 
 fi
 sleep 7
@@ -207,6 +210,7 @@ else
   	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER"
    	sleep 1.5
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale login --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER"
+ 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --hostname "$TSUSER"
 	echo 
 fi
  	
