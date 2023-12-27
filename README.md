@@ -37,7 +37,7 @@ curl -s https://raw.githubusercontent.com/PurpleComputing/Tailscale-scripts/main
 
 ## Mac / silent-auth.sh
 
-### Launch Tailscale with Silent Authentication (Designed to be one script to 
+### Launch Tailscale with Silent Authentication (Designed to be one script to do it all)
 
 This script is designed to be run on login on an MDM asset to ensure Tailscale launches and authenticates Tailscale and sets the hostname relative to the User or User and Device. We use this where a client has a requirement that all external server access has to be encrypted over a tunnel.
 
