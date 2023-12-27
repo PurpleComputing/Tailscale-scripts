@@ -1,5 +1,6 @@
 #!/bin/sh
-echo "Start: *** TAILSCALE SILENT AUTH SCRIPT ***"
+echo "________________________________________________________________________________________________"
+echo "Start: TAILSCALE SILENT AUTH SCRIPT"
 ###############################################################################################
 #
 #                                                        ******
@@ -56,10 +57,11 @@ runAsUser() {
   if [ "$currentUser" != "loginwindow" ]; then
 	launchctl asuser "$uid" sudo -u "$currentUser" "$@"
   else
-  	echo 
+	  echo 
 	echo "• No user is logged in"
 	echo 
-	echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
+	echo "End: TAILSCALE SILENT AUTH SCRIPT"
+	echo "________________________________________________________________________________________________"
 	echo 
 	exit 1
   fi
@@ -74,7 +76,8 @@ else
   echo 
   echo "• $APPNA is not installed."
   echo 
-  echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
+  echo "End: TAILSCALE SILENT AUTH SCRIPT"
+  echo "________________________________________________________________________________________________"
   echo 
   exit 1
 fi
@@ -106,7 +109,8 @@ else
 	echo 
 	echo "• NO INTERNET... Exit.."
 	echo 
-	echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
+	echo "End: TAILSCALE SILENT AUTH SCRIPT"
+	echo "________________________________________________________________________________________________"
 	echo 
 	exit 1
 fi
@@ -114,19 +118,20 @@ fi
 # TAILSCALE ALREADY AUTHED CHECK
 if [ "$PING2" -eq "1" ]; then
 	echo "• Tailscale Ping Address: $IP2 is reachable"
- 	echo "• Internet is working"
- 	TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
-  	TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
-   	TSMIP="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $1}')"
+	 echo "• Internet is working"
+	 TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
+	  TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
+	   TSMIP="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $1}')"
 	echo "• User is Authenticated" 
 	echo 
 	echo NO INTERVENTION WAS NEEDED
- 	echo
- 	echo "Tailnet: $TSMNetName"
-  	echo "Hostname: $TSMHostname"
-   	echo "IP: $TSMIP"
+	 echo
+	 echo "Tailnet: $TSMNetName"
+	  echo "Hostname: $TSMHostname"
+	   echo "IP: $TSMIP"
 	echo 
-	echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
+	echo "End: TAILSCALE SILENT AUTH SCRIPT"
+	echo "________________________________________________________________________________________________"
 	echo 
 	exit 0
 
@@ -147,19 +152,20 @@ PING3=$(ping -c 1 "$IP2" | grep -c from)
 # TAILSCALE FINAL AUTH CHECK
 if [ "$PING3" -eq "1" ]; then
 	echo "• Tailscale Ping Address: $IP2 is reachable"
- 	echo "• Internet is working"
- 	TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
-  	TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
-   	TSMIP="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $1}')"
+	 echo "• Internet is working"
+	 TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
+	  TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
+	   TSMIP="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $1}')"
 	echo "• User is Authenticated" 
 	echo 
 	echo "ATTEMPT 1:" AUTHENTICATED SUCCESSFULLY
- 	echo
- 	echo "Tailnet: $TSMNetName"
-  	echo "Hostname: $TSMHostname"
-   	echo "IP: $TSMIP"
+	 echo
+	 echo "Tailnet: $TSMNetName"
+	  echo "Hostname: $TSMHostname"
+	   echo "IP: $TSMIP"
 	echo 
-	echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
+	echo "End: TAILSCALE SILENT AUTH SCRIPT"
+	echo "________________________________________________________________________________________________"
 	echo 
 	exit 0
 else
@@ -170,15 +176,17 @@ else
 	if [[ -z "$HOOKHELPER" ]]; then
 		echo No Webhooks to Fire. Continuing...
 	else
- 		Cleaning up Existing Node
+		 Cleaning up Existing Node
 		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$TSUSER"'"}'
 		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$TSUNAME"'"}'
 	fi
- 	sleep 5
+	 sleep 5
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --reset
 	echo 
 fi
 
-echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
+echo "End: TAILSCALE SILENT AUTH SCRIPT"
+echo "________________________________________________________________________________________________"
+
 
 exit 0
