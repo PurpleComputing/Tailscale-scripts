@@ -68,9 +68,7 @@ runAsUser() {
 # CHECKS TAILSCALE IS PRESENT ON THE DEVICE
 if [ -d "$DIR" ]; then
   ### Take action if $DIR exists ###
-  echo 
   echo "• $APPNA is installed."
-  echo 
 else
   ###  Control will jump here if $DIR does NOT exists ###
   echo 
