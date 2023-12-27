@@ -35,7 +35,15 @@ This script is designed to be run on login on an MDM asset to ensure Tailscale l
 curl -s https://raw.githubusercontent.com/PurpleComputing/Tailscale-scripts/main/Mac/launch-connect-vpr.sh | bash
 ```
 
-## Mac / silent-auth.sh
+## Mac / silent-auth.sh (Last Updated 27th December 2023)
+
+##### Changelog
+
+```
+v1.0 27-12-2023 10:00am: Initial Script Creation
+v1.1 27-12-2023 7:00pm: Merged multiple scripts into one with the variables found on the README, fixed duplicate node creation, added facility for webhook API requests to remove duplicate nodes on Tailscale reset to eliminate any possibility of duplicate nodes. Notes available upon request.
+
+```
 
 ### Launch Tailscale with Silent Authentication (Designed to be one script to do it all)
 
