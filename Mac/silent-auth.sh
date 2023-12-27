@@ -103,7 +103,6 @@ PING2=$(ping -c 1 "$IP2" | grep -c from)
 
 # INTERNET CHECK
 if [ "$PING1" -eq "1" ]; then
-	echo 
 	echo "• Internet is working"
 else
 	echo 
@@ -116,7 +115,6 @@ fi
 
 # TAILSCALE ALREADY AUTHED CHECK
 if [ "$PING2" -eq "1" ]; then
-	echo 
 	echo "• Server $IP2 is reachable"
  	echo "• Internet is working"
  	TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
@@ -136,7 +134,7 @@ if [ "$PING2" -eq "1" ]; then
 
 else
 	echo 
-	echo ROUND"1:"NO AUTH AUTHENTICATING...
+	echo ATTEMPT"1:" NO AUTH AUTHENTICATING...
 	killall Tailscale
 	sleep 3
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
@@ -150,23 +148,25 @@ PING3=$(ping -c 1 "$IP2" | grep -c from)
 
 # TAILSCALE FINAL AUTH CHECK
 if [ "$PING3" -eq "1" ]; then
-	echo 
-	echo Server $IP2 is now reachable
+	echo "• Server $IP2 is reachable"
+ 	echo "• Internet is working"
  	TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
   	TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
    	TSMIP="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $1}')"
-	echo "Internet is working, and the user is authenticated."
+	echo "• User is Authenticated" 
+	echo 
+	echo "ATTEMPT 1:" AUTHENTICATED SUCCESSFULLY
  	echo
  	echo "Tailnet: $TSMNetName"
   	echo "Hostname: $TSMHostname"
    	echo "IP: $TSMIP"
-    	echo
+	echo 
 	echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
 	echo 
 	exit 0
 else
 	echo 
-	echo ROUND"2:" NO AUTH... AUTHENTICATING WITH RESET...
+	echo ATTEMPT"2:" NO AUTH... AUTHENTICATING WITH TS RESET...
 	sleep 5
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 	if [[ -z "$HOOKHELPER" ]]; then
