@@ -68,12 +68,12 @@ runAsUser() {
 if [ -d "$DIR" ]; then
   ### Take action if $DIR exists ###
   echo 
-  echo "$APPNA is installed."
+  echo "• $APPNA is installed."
   echo 
 else
   ###  Control will jump here if $DIR does NOT exists ###
   echo 
-  echo "$APPNA is not installed."
+  echo "• $APPNA is not installed."
   echo 
   echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
   echo 
@@ -97,16 +97,16 @@ PING1=$(ping -c 1 "$IP1" | grep -c from)
 sleep 2
 
 # PING TAILSCALE VPR FOR FIRST ATTEMPT
-echo Tailscale Ping Address":" "$IP2"
+echo "• "Tailscale Ping Address":" "$IP2"
 PING2=$(ping -c 1 "$IP2" | grep -c from)
 
 # INTERNET CHECK
 if [ "$PING1" -eq "1" ]; then
 	echo 
-	echo Internet is working
+	echo "• Internet is working"
 else
 	echo 
-	echo NO INTERNET... Exit..
+	echo "• NO INTERNET... Exit.."
 	echo 
 	echo "End: *** TAILSCALE SILENT AUTH SCRIPT ***"
 	echo 
@@ -116,11 +116,12 @@ fi
 # TAILSCALE ALREADY AUTHED CHECK
 if [ "$PING2" -eq "1" ]; then
 	echo 
-	echo "Server $IP2 is reachable, and the internet is working."
+	echo "• Server $IP2 is reachable"
+ 	echo "• Internet is working"
  	TSMNetName="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $3}' | awk -F'.' '{print $2}')"
   	TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
    	TSMIP="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $1}')"
-	echo "and the user is already authenticated." 
+	echo "• User is Authenticated" 
 	echo 
 	echo NO INTERVENTION WAS NEEDED
  	echo
