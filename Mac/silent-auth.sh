@@ -104,7 +104,6 @@ PING2=$(ping -c 1 "$IP2" | grep -c from)
 if [ "$PING1" -eq "1" ]; then
 	echo 
 	echo Internet is working
-	echo 
 else
 	echo 
 	echo NO INTERNET... Exit..
