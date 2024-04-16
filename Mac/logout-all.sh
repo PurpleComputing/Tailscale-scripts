@@ -23,7 +23,7 @@ list=$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale switch --l
 while read -r line; do
 	# Extract the ID using awk
 	id=$(echo "$line" | awk '{print $1}')
-
+	echo "$(date) Logging out of $id" >> /Library/Logs/Purple/TSLogout.log
 	# Echo the ID
 	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale switch $id
 	sleep 2
