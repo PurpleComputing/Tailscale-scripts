@@ -319,8 +319,8 @@ test() {
 	}
 
 	# Start diagnostic script
-	echo_and_log "Tailscale Diagnostics Report - $(date)"
-	echo_and_log "========================================="
+	echo_and_log "Purple Tailscale Diagnostics Report - $(date)"
+	echo_and_log "============================================================="
 
 	echo_and_log "Checking if Tailscale is installed..."
 	if [ ! -f "$TAILSCALE_BIN" ]; then
