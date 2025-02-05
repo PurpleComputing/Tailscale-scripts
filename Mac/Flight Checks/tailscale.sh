@@ -19,11 +19,10 @@
 # BE HELD LIABLE FOR DAMAGES CAUSED BY THE EXECUTION OF THIS CODE.
 #
 ####################################################################################################
-# tailscale-intial-launch.sh SCMv2.0-aaaaa1
+# tailscale.sh SCMv2.0-aaaaa1
 # Last Updated by Purple, 05/02/2025
 ####################################################################################################
 echo " "
-echo "*** BEGIN tailscale-intial-launch.sh ***"
 
 ####################################################################################################
 ## Variables
@@ -32,7 +31,7 @@ echo "*** BEGIN tailscale-intial-launch.sh ***"
 # tsversion=""
 # tsbundle=""
 # tailnet=""
-tsserverip="100.100.1.10"
+#tsserverip=""
 loggedInUser=$(stat -f "%Su" /dev/console)
 currentUser=$( echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }' )
 uid=$(id -u "$currentUser")
@@ -47,7 +46,7 @@ runAsUser() {
 	  echo
 	echo "No user is logged in"
 	echo
-	echo "*** END tailscale-intial-launch.sh ***"
+	#echo "*** END tailscale-intial-launch.sh ***"
 	echo " "
 	exit 1
   fi
@@ -58,7 +57,7 @@ check_auth_profile() {
 		echo "Auth Profile Present"
 	else
 		echo "Error: Auth Profile Not Found. Script Failed."
-		echo "*** END tailscale-intial-launch.sh ***"
+		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
 		exit 1
 	fi
@@ -69,7 +68,7 @@ check_config_profile() {
 		echo "Config Profile Present"
 	else
 		echo "Error: Config Profile Not Found. Script Failed."
-		echo "*** END tailscale-intial-launch.sh ***"
+		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
 		exit 1
 	fi
@@ -81,7 +80,7 @@ check_tailscale_channel() {
 	# Ensure the plist file exists
 	if [[ ! -f "$plist" ]]; then
 		echo "Error: Info.plist not found at $plist"
-		echo "*** END tailscale-intial-launch.sh ***"
+		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
 		exit 1
 	fi
@@ -102,7 +101,7 @@ check_tailscale_channel() {
 			;;
 		*)
 			echo "Error: Unknown bundle identifier '$bundle_id'"
-			echo "*** END tailscale-intial-launch.sh ***"
+			#echo "*** END tailscale-intial-launch.sh ***"
 			echo " "
 			exit 1
 			;;
@@ -116,7 +115,7 @@ check_tailscale_installed() {
 
 	if [[ ! -d "$app_path" ]]; then
 		echo "Error: Tailscale is not installed."
-		echo "*** END tailscale-intial-launch.sh ***"
+		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
 		exit 1
 	fi
@@ -166,7 +165,7 @@ launch_tailscale() {
 	# Ensure we have a valid user
 	if [[ -z "$currentUser" || "$currentUser" == "root" ]]; then
 		echo "No active user session found."
-		echo "*** END tailscale-intial-launch.sh ***"
+		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
 		exit 1
 	fi
@@ -193,7 +192,7 @@ check_connectivity() {
 		echo "Internet is connected"
 	else
 		echo "Error: NO INTERNET..."
-		echo "*** END tailscale-intial-launch.sh ***"
+		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
 		exit 1
 	fi
@@ -202,7 +201,7 @@ check_connectivity() {
 		echo ""
 		echo "Tailscale is connected"
 		echo ""
-		echo "*** END tailscale-intial-launch.sh ***"
+		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
 		exit 0
 	else
@@ -226,7 +225,7 @@ set_exit_node() {
 				runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --exit-node="$TSEXITNODE"
 			else
 				echo "Error: Tailscale is not installed or not found in /Applications."
-				echo "*** END tailscale-intial-launch.sh ***"
+				#echo "*** END tailscale-intial-launch.sh ***"
 				echo " "
 				exit 1
 			fi
@@ -239,7 +238,7 @@ switch_tailscale_network() {
 
 	if [[ -z "$tailnet" ]]; then
 		echo "Error: No Tailscale network specified. Set tailnet and try again."
-		echo "*** END tailscale-intial-launch.sh ***"
+		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
 		exit 1
 	fi
@@ -249,7 +248,7 @@ switch_tailscale_network() {
 		runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale switch "$tailnet"
 	else
 		echo "Error: Tailscale is not installed or not found in /Applications."
-		echo "*** END tailscale-intial-launch.sh ***"
+		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
 		exit 1
 	fi
@@ -269,7 +268,7 @@ set_tailscale_hostname() {
 		runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --hostname "$TSUSER"
 	else
 		echo "Error: Tailscale is not installed or not found in /Applications."
-		echo "*** END tailscale-intial-launch.sh ***"
+		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
 		exit 1
 	fi
@@ -327,5 +326,4 @@ logout_all_tailnets() {
 # switch_tailscale_network
 # set_tailscale_hostname
 
-echo "*** END tailscale-intial-launch.sh ***"
 echo " "
