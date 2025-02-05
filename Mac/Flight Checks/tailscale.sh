@@ -306,6 +306,67 @@ logout_all_tailnets() {
 	done <<< "$list"
 }
 
+test() {
+	# Define log file
+	LOGFILE="/Users/$currentUser/.tailscale_diagnostics_$(date +%Y%m%d%H%M%S).log"
+
+	# Path to Tailscale binary
+	TAILSCALE_BIN="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+
+	# Function to log output
+	echo_and_log() {
+		echo "$1"
+		echo "$1" >> "$LOGFILE"
+	}
+
+	# Start diagnostic script
+	echo_and_log "Tailscale Diagnostics Report - $(date)"
+	echo_and_log "========================================="
+
+	echo_and_log "Checking if Tailscale is installed..."
+	if [ ! -f "$TAILSCALE_BIN" ]; then
+		echo_and_log "Tailscale is not installed at $TAILSCALE_BIN. Please install Tailscale and retry."
+		exit 1
+	fi
+
+	echo_and_log "Tailscale is installed. Proceeding with diagnostics."
+
+	echo_and_log "\nChecking Tailscale service status..."
+	TS_STATUS=$(runAsUser $TAILSCALE_BIN status 2>&1)
+	echo_and_log "$TS_STATUS"
+
+	echo_and_log "\nChecking Tailscale IP and connectivity..."
+	TS_IP=$(runAsUser $TAILSCALE_BIN ip -4 2>&1)
+	echo_and_log "Tailscale IPv4: $TS_IP"
+	TS_IP6=$(runAsUser $TAILSCALE_BIN ip -6 2>&1)
+	echo_and_log "Tailscale IPv6: $TS_IP6"
+
+	echo_and_log "\nPinging Tailscale's coordination server (control plane)..."
+	TS_PING=$(runAsUser $TAILSCALE_BIN ping $($TAILSCALE_BIN status --active=true | awk '$5 != "offline" && NR>1 {print $1; exit}'))
+	echo_and_log "$TS_PING"
+
+	echo_and_log "\nChecking for active connections..."
+	TS_PEERS=$(runAsUser $TAILSCALE_BIN status --json | jq '.Peer' 2>/dev/null)
+	if [[ -z "$TS_PEERS" ]]; then
+		echo_and_log "No active peers found."
+	else
+		echo_and_log "Active peers:"
+		echo_and_log "$TS_PEERS"
+	fi
+
+	echo_and_log "\n Running Tailscale Netcheck..."
+	TS_NETCHECK=$(runAsUser $TAILSCALE_BIN netcheck)
+	echo_and_log "$TS_NETCHECK"
+
+
+	echo_and_log "\nTesting connection to a public IP via Tailscale..."
+	PING_TEST=$(ping -c 4 8.8.8.8 2>&1)
+	echo_and_log "$PING_TEST"
+
+	echo_and_log "\nDiagnostics complete. Log file: $LOGFILE"
+
+}
+
 ####################################################################################################
 ####################################################################################################
 
