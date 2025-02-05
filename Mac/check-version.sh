@@ -22,12 +22,16 @@
 # check-version.sh SCMvab2e744
 # Last Updated by Purple, 05/02/2025
 ####################################################################################################
-echo "*** BEGIN check-version.sh ***"
+#echo "*** BEGIN check-version.sh ***"
 DA=$(date +%s)
 curl -s -o /tmp/tailscale-$DA.sh -L https://prpl.uk/tailscalesh
 source /tmp/tailscale-$DA.sh
+####################################################################################################
 
-check_tailscale_update
+$@
+
+####################################################################################################
 
 rm /tmp/tailscale-$DA.sh
-echo "*** END check-version.sh ***"
+echo ""
+#echo "*** END check-version.sh ***"
