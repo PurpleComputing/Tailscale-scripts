@@ -47,6 +47,7 @@ source /tmp/tailscale-$DA.sh
 	if [ -L "$SYMLINK" ]; then
 		echo ""
 	else
+		rm -f "$SYMLINK"
 		ln -s "$TARGET" "$SYMLINK"
 	fi
 # fi
