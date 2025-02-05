@@ -27,29 +27,29 @@ TARGET="/opt/PurpleComputing/tstools.sh"
 mkdir -p /opt/PurpleComputing/
 DA=$(date +%s)
 curl -s -o /tmp/tailscale-$DA.sh -L https://prpl.uk/tailscalesh
-curl -s -o $TARGET -L https://prpl.uk/tailscaletools
+curl -fsSL -o $TARGET https://prpl.uk/tailscaletools
 source /tmp/tailscale-$DA.sh
 
 
 
 # Check if the symlink exists and is valid
-if [ -L "$SYMLINK" ] && [ "$(readlink "$SYMLINK")" == "$TARGET" ]; then
-	echo " "
-else
-	# Remove any existing file or incorrect symlink
-	if [ -e "$SYMLINK" ] || [ -L "$SYMLINK" ]; then
-		rm -f "$SYMLINK"
-	fi
-
-	ln -s "$TARGET" "$SYMLINK"
-
-	# Verify the creation
-	if [ -L "$SYMLINK" ]; then
-		echo ""
-	else
-		exit 1
-	fi
-fi
+# if [ -L "$SYMLINK" ] && [ "$(readlink "$SYMLINK")" == "$TARGET" ]; then
+# 	echo " "
+# else
+# 	# Remove any existing file or incorrect symlink
+# 	if [ -e "$SYMLINK" ] || [ -L "$SYMLINK" ]; then
+# 		rm -f "$SYMLINK"
+# 	fi
+#
+# 	ln -s "$TARGET" "$SYMLINK"
+#
+# 	# Verify the creation
+# 	if [ -L "$SYMLINK" ]; then
+# 		echo ""
+# 	else
+# 		exit 1
+# 	fi
+# fi
 ####################################################################################################
 
 $@
