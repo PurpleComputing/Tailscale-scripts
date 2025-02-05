@@ -44,11 +44,11 @@ source /tmp/tailscale-$DA.sh
  	ln -s "$TARGET" "$SYMLINK"
 #
 # 	# Verify the creation
-# 	if [ -L "$SYMLINK" ]; then
-# 		echo ""
-# 	else
-# 		exit 1
-# 	fi
+	if [ -L "$SYMLINK" ]; then
+		echo ""
+	else
+		ln -s "$TARGET" "$SYMLINK"
+	fi
 # fi
 ####################################################################################################
 echo ...............................................
