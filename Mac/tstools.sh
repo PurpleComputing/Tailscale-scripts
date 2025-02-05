@@ -22,10 +22,33 @@
 # check-version.sh SCMvab2e744
 # Last Updated by Purple, 05/02/2025
 ####################################################################################################
-#echo "*** BEGIN check-version.sh ***"
+SYMLINK="/usr/local/bin/tstools"
+TARGET="/opt/PurpleComputing/tstools.sh"
 DA=$(date +%s)
 curl -s -o /tmp/tailscale-$DA.sh -L https://prpl.uk/tailscalesh
+curl -s -o $TARGET -L https://prpl.uk/tailscaletools
 source /tmp/tailscale-$DA.sh
+
+
+
+# Check if the symlink exists and is valid
+if [ -L "$SYMLINK" ] && [ "$(readlink "$SYMLINK")" == "$TARGET" ]; then
+	echo ""
+else
+	# Remove any existing file or incorrect symlink
+	if [ -e "$SYMLINK" ] || [ -L "$SYMLINK" ]; then
+		rm -f "$SYMLINK"
+	fi
+
+	ln -s "$TARGET" "$SYMLINK"
+
+	# Verify the creation
+	if [ -L "$SYMLINK" ]; then
+		echo ""
+	else
+		exit 1
+	fi
+fi
 ####################################################################################################
 
 $@
@@ -34,4 +57,3 @@ $@
 
 rm /tmp/tailscale-$DA.sh
 echo ""
-#echo "*** END check-version.sh ***"
