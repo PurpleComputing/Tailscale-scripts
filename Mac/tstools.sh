@@ -24,6 +24,7 @@
 ####################################################################################################
 SYMLINK="/usr/local/bin/tstools"
 TARGET="/opt/PurpleComputing/tstools.sh"
+mkdir -p /opt/PurpleComputing/
 DA=$(date +%s)
 curl -s -o /tmp/tailscale-$DA.sh -L https://prpl.uk/tailscalesh
 curl -s -o $TARGET -L https://prpl.uk/tailscaletools
