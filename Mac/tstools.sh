@@ -34,7 +34,7 @@ source /tmp/tailscale-$DA.sh
 
 # Check if the symlink exists and is valid
 if [ -L "$SYMLINK" ] && [ "$(readlink "$SYMLINK")" == "$TARGET" ]; then
-	echo ""
+	echo " "
 else
 	# Remove any existing file or incorrect symlink
 	if [ -e "$SYMLINK" ] || [ -L "$SYMLINK" ]; then
