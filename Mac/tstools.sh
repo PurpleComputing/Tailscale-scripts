@@ -19,7 +19,7 @@
 # BE HELD LIABLE FOR DAMAGES CAUSED BY THE EXECUTION OF THIS CODE.
 #
 ####################################################################################################
-# check-version.sh SCMvab2e744
+# tstools.sh - Must be run with Sudo or MDM
 # Last Updated by Purple, 05/02/2025
 ####################################################################################################
 SYMLINK="/usr/local/bin/tstools"
