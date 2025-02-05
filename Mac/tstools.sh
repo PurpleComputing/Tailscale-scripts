@@ -41,7 +41,7 @@ source /tmp/tailscale-$DA.sh
 # 		rm -f "$SYMLINK"
 # 	fi
 #
-# 	ln -s "$TARGET" "$SYMLINK"
+ 	ln -s "$TARGET" "$SYMLINK"
 #
 # 	# Verify the creation
 # 	if [ -L "$SYMLINK" ]; then
@@ -51,7 +51,11 @@ source /tmp/tailscale-$DA.sh
 # 	fi
 # fi
 ####################################################################################################
-
+echo ...............................................
+echo ........Purple Tailscale Toolkit...............
+echo ...............................................
+echo ""
+echo "Command Selected: $@"
 $@
 
 ####################################################################################################
