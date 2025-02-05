@@ -363,6 +363,7 @@ test() {
 	echo_and_log "$PING_TEST"
 
 	echo_and_log "\nDiagnostics complete. Log file: $LOGFILE"
+	runAsUser open $LOGFILE
 
 }
 
