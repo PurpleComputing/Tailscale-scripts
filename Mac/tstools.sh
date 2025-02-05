@@ -46,6 +46,7 @@ source /tmp/tailscale-$DA.sh
 		echo ""
 	else
 		rm -f "$SYMLINK"
+		sleep 0.5
 		ln -s "$TARGET" "$SYMLINK"
 	fi
 # fi
