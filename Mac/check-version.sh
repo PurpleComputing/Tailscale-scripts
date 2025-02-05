@@ -24,7 +24,7 @@
 ####################################################################################################
 echo "*** BEGIN check-version.sh ***"
 DA=$(date +%s)
-curl -oL /tmp/tailscale-$DA.sh https://prpl.uk/tailscalesh
+curl -s -o /tmp/tailscale-$DA.sh -L https://prpl.uk/tailscalesh
 source /tmp/tailscale-$DA.sh
 
 check_tailscale_update
