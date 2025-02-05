@@ -23,10 +23,11 @@
 # Last Updated by Purple, 05/02/2025
 ####################################################################################################
 echo "*** BEGIN check-version.sh ***"
-curl -oL /tmp/tailscale.sh URL
-source /tmp/tailscale.sh
+DA=$(date +%s)
+curl -oL /tmp/tailscale-$DA.sh https://prpl.uk/tailscalesh
+source /tmp/tailscale-$DA.sh
 
 check_tailscale_update
 
-
+rm /tmp/tailscale-$DA.sh
 echo "*** END check-version.sh ***"
