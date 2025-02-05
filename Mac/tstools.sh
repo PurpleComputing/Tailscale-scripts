@@ -41,8 +41,6 @@ source /tmp/tailscale-$DA.sh
 # 		rm -f "$SYMLINK"
 # 	fi
 #
- 	ln -s "$TARGET" "$SYMLINK"
-#
 # 	# Verify the creation
 	if [ -L "$SYMLINK" ]; then
 		echo ""
