@@ -23,7 +23,7 @@
 # Last Updated by Purple, 05/02/2025
 ####################################################################################################
 SYMLINK="/usr/local/bin/tstools"
-TARGET="/opt/PurpleComputing/tstools.sh"
+TARGET="/Library/Application Support/Purple/tstools.sh"
 mkdir -p /opt/PurpleComputing/
 DA=$(date +%s)
 curl -fsSL -o /tmp/tailscale-$DA.sh https://prpl.uk/tailscalesh
