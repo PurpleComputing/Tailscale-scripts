@@ -24,24 +24,13 @@
 ####################################################################################################
 SYMLINK="/usr/local/bin/tstools"
 TARGET="/Library/Application Support/Purple/tstools.sh"
-mkdir -p /opt/PurpleComputing/
+mkdir -p "/Library/Application Support/Purple/"
 DA=$(date +%s)
-curl -fsSL -o /tmp/tailscale-$DA.sh https://prpl.uk/tailscalesh
-curl -fsSL -o $TARGET https://prpl.uk/tailscaletools
+sudo curl -fsSL -o /tmp/tailscale-$DA.sh https://prpl.uk/tailscalesh
+sudo curl -fsSL -o $TARGET https://prpl.uk/tailscaletools
 source /tmp/tailscale-$DA.sh
 
 
-
-# Check if the symlink exists and is valid
-# if [ -L "$SYMLINK" ] && [ "$(readlink "$SYMLINK")" == "$TARGET" ]; then
-# 	echo " "
-# else
-# 	# Remove any existing file or incorrect symlink
-# 	if [ -e "$SYMLINK" ] || [ -L "$SYMLINK" ]; then
-# 		rm -f "$SYMLINK"
-# 	fi
-#
-# 	# Verify the creation
 	if [ -L "$SYMLINK" ]; then
 		echo ""
 	else
@@ -49,7 +38,7 @@ source /tmp/tailscale-$DA.sh
 		sleep 0.5
 		ln -s "$TARGET" "$SYMLINK"
 	fi
-# fi
+
 ####################################################################################################
 echo ...............................................
 echo ....... Purple Tailscale Toolkit ..............
