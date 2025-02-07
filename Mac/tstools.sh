@@ -35,6 +35,7 @@ SYMLINK="/usr/local/bin/tstools"
 TARGET="/Library/Application Support/Purple/tstools.sh"
 mkdir -p "/Library/Application Support/Purple/"
 DA=$(date +%s)
+rm -f "$TARGET"
 sudo curl -fsSL -o /tmp/tailscale-$DA.sh https://prpl.uk/tailscalesh
 sudo curl -fsSL -o "$TARGET" https://prpl.uk/tailscaletools
 source /tmp/tailscale-$DA.sh
