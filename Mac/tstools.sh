@@ -66,5 +66,5 @@ $@
 rm /tmp/tailscale-$DA.sh
 chmod +x "$SYMLINK" "$TARGET"
 sleep 0.5
-chmod +x "$SYMLINK" "$TARGET"
+sudo chmod +x "$SYMLINK" "$TARGET"
 echo ""
