@@ -22,12 +22,19 @@
 # tstools.sh - Must be run with Sudo or MDM
 # Last Updated by Purple, 05/02/2025
 ####################################################################################################
+
+if [ "$EUID" -ne 0 ]
+then printf "\033[1;31mError: Please run: sudo tstools\033[0m\n"
+exit
+fi
+
+
 SYMLINK="/usr/local/bin/tstools"
 TARGET="/Library/Application Support/Purple/tstools.sh"
 mkdir -p "/Library/Application Support/Purple/"
 DA=$(date +%s)
 sudo curl -fsSL -o /tmp/tailscale-$DA.sh https://prpl.uk/tailscalesh
-# sudo curl -fsSL -o $TARGET https://prpl.uk/tailscaletools
+sudo curl -fsSL -o $TARGET https://prpl.uk/tailscaletools
 source /tmp/tailscale-$DA.sh
 
 
