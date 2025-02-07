@@ -23,7 +23,7 @@
 # Last Updated by Purple, 05/02/2025
 ####################################################################################################
 
-version="v2.0-1aaa"
+version="v2.0-1aab"
 
 if [ "$EUID" -ne 0 ]
 then printf "\033[1;31mPurple Tailscale Toolkit Error: Please run: sudo tstools\033[0m\n"
