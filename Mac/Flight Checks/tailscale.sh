@@ -30,7 +30,7 @@
 # tsversion=""
 # tsbundle=""
 # tailnet=""
-#tsserverip=""
+# tsserverip=""
 loggedInUser=$(stat -f "%Su" /dev/console)
 currentUser=$( echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }' )
 uid=$(id -u "$currentUser")
@@ -358,9 +358,32 @@ test() {
 	echo_and_log "$TS_NETCHECK"
 
 
-	echo_and_log "\nTesting connection to a public IP via Tailscale..."
+	echo_and_log "\nTesting connection to a public IP outside of Tailscale (Google DNS)..."
 	PING_TEST=$(ping -c 4 8.8.8.8 2>&1)
 	echo_and_log "$PING_TEST"
+
+	echo_and_log "\nTesting connection to a public IP outside of Tailscale (London VM01)..."
+	PING_TEST=$(ping -c 4 a.ping.prpl.it 2>&1)
+	echo_and_log "$PING_TEST"
+
+
+	echo_and_log "\nTesting connection to a public IP outside of Tailscale (London VM02)..."
+	PING_TEST=$(ping -c 4 b.ping.prpl.it 2>&1)
+	echo_and_log "$PING_TEST"
+
+	echo_and_log "\nTesting connection to a public IP outside of Tailscale (Germany VM03)..."
+	PING_TEST=$(ping -c 4 c.ping.prpl.it 2>&1)
+	echo_and_log "$PING_TEST"
+
+	echo_and_log "\nTesting connection to a public IP outside of Tailscale (Toronto)..."
+	PING_TEST=$(ping -c 4 d.ping.prpl.it 2>&1)
+	echo_and_log "$PING_TEST"
+
+	echo_and_log "\nTesting connection to a public IP outside of Tailscale (Amsterdam)..."
+	PING_TEST=$(ping -c 4 e.ping.prpl.it 2>&1)
+	echo_and_log "$PING_TEST"
+
+
 
 	echo_and_log "\nDiagnostics complete. Log file: $LOGFILE"
 	runAsUser open $LOGFILE
