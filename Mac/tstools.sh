@@ -23,6 +23,8 @@
 # Last Updated by Purple, 05/02/2025
 ####################################################################################################
 
+version="v2.0-1aaa"
+
 if [ "$EUID" -ne 0 ]
 then printf "\033[1;31mError: Please run: sudo tstools\033[0m\n"
 exit
@@ -50,6 +52,7 @@ source /tmp/tailscale-$DA.sh
 echo ...............................................
 echo ....... Purple Tailscale Toolkit ..............
 echo ...............................................
+echo "Version: $version"
 echo ""
 echo "Command Selected: $@"
 echo ""
