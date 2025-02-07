@@ -26,7 +26,7 @@
 version="v2.0-1aaa"
 
 if [ "$EUID" -ne 0 ]
-then printf "\033[1;31mError: Please run: sudo tstools\033[0m\n"
+then printf "\033[1;31mPurple Tailscale Toolkit Error: Please run: sudo tstools\033[0m\n"
 exit
 fi
 
