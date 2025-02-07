@@ -23,7 +23,7 @@
 # Last Updated by Purple, 05/02/2025
 ####################################################################################################
 
-version="v2.0-1aac"
+version="v2.0-1aad"
 
 if [ "$EUID" -ne 0 ]
 then printf "\033[1;31mPurple Tailscale Toolkit Error: Please run: sudo tstools\033[0m\n"
@@ -64,5 +64,7 @@ $@
 ####################################################################################################
 
 rm /tmp/tailscale-$DA.sh
-chmod +x $SYMLINK
+chmod +x "$SYMLINK" "$TARGET"
+sleep 0.5
+chmod +x "$SYMLINK" "$TARGET"
 echo ""
