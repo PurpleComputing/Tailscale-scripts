@@ -184,7 +184,8 @@ check_connectivity() {
 	local PING2=0
 
 	if [ -n "$IP2" ]; then
-		PING2=$(ping -c 1 "$IP2" | grep -c "from")
+		local PING2=$(ping -c 1 "$IP2" | grep -c "from")
+		echo "Tailscale IP Provided: $IP2"
 	fi
 
 	if [ "$PING1" -eq 1 ]; then
