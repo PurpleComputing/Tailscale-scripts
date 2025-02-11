@@ -391,6 +391,23 @@ test() {
 
 }
 
+create_tstools_sym() {
+
+	SYMLINK="/usr/local/bin/tstools"
+	TARGET="/Library/Application Support/Purple/tstools.sh"
+
+	mkdir -p "/Library/Application Support/Purple/"
+
+	if [ -L "$SYMLINK" ]; then
+			echo ""
+		else
+			rm -f "$SYMLINK"
+			sleep 0.5
+			ln -s "$TARGET" "$SYMLINK"
+		fi
+	sudo chmod +x "$SYMLINK" "$TARGET"
+}
+
 ####################################################################################################
 ####################################################################################################
 
