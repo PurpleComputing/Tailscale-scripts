@@ -47,6 +47,7 @@ runAsUser() {
 	echo
 	#echo "*** END tailscale-intial-launch.sh ***"
 	echo " "
+	rm /tmp/tailscale-*.sh
 	exit 1
   fi
 }
@@ -58,6 +59,7 @@ check_auth_profile() {
 		echo "Error: Auth Profile Not Found. Script Failed."
 		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
+		rm /tmp/tailscale-*.sh
 		exit 1
 	fi
 }
@@ -69,6 +71,7 @@ check_config_profile() {
 		echo "Error: Config Profile Not Found. Script Failed."
 		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
+		rm /tmp/tailscale-*.sh
 		exit 1
 	fi
 }
@@ -81,6 +84,7 @@ check_tailscale_channel() {
 		echo "Error: Info.plist not found at $plist"
 		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
+		rm /tmp/tailscale-*.sh
 		exit 1
 	fi
 
@@ -102,6 +106,7 @@ check_tailscale_channel() {
 			echo "Error: Unknown bundle identifier '$bundle_id'"
 			#echo "*** END tailscale-intial-launch.sh ***"
 			echo " "
+			rm /tmp/tailscale-*.sh
 			exit 1
 			;;
 	esac
@@ -116,6 +121,7 @@ check_tailscale_installed() {
 		echo "Error: Tailscale is not installed."
 		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
+		rm /tmp/tailscale-*.sh
 		exit 1
 	fi
 }
@@ -166,6 +172,7 @@ launch_tailscale() {
 		echo "No active user session found."
 		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
+		rm /tmp/tailscale-*.sh
 		exit 1
 	fi
 
@@ -194,6 +201,7 @@ check_connectivity() {
 		echo "Error: NO INTERNET..."
 		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
+		rm /tmp/tailscale-*.sh
 		exit 1
 	fi
 
@@ -203,6 +211,7 @@ check_connectivity() {
 		echo ""
 		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
+		rm /tmp/tailscale-*.sh
 		exit 0
 	else
 		echo ""
@@ -227,6 +236,7 @@ set_exit_node() {
 				echo "Error: Tailscale is not installed or not found in /Applications."
 				#echo "*** END tailscale-intial-launch.sh ***"
 				echo " "
+				rm /tmp/tailscale-*.sh
 				exit 1
 			fi
 		fi
@@ -240,6 +250,7 @@ switch_tailscale_network() {
 		echo "Error: No Tailscale network specified. Set tailnet and try again."
 		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
+		rm /tmp/tailscale-*.sh
 		exit 1
 	fi
 
@@ -250,6 +261,7 @@ switch_tailscale_network() {
 		echo "Error: Tailscale is not installed or not found in /Applications."
 		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
+		rm /tmp/tailscale-*.sh
 		exit 1
 	fi
 }
@@ -270,6 +282,7 @@ set_tailscale_hostname() {
 		echo "Error: Tailscale is not installed or not found in /Applications."
 		#echo "*** END tailscale-intial-launch.sh ***"
 		echo " "
+		rm /tmp/tailscale-*.sh
 		exit 1
 	fi
 }
@@ -326,6 +339,7 @@ test() {
 	echo_and_log "Checking if Tailscale is installed..."
 	if [ ! -f "$TAILSCALE_BIN" ]; then
 		echo_and_log "Tailscale is not installed at $TAILSCALE_BIN. Please install Tailscale and retry."
+		rm /tmp/tailscale-*.sh
 		exit 1
 	fi
 
