@@ -395,7 +395,7 @@ create_tstools_sym() {
 
 	SYMLINK="/usr/local/bin/tstools"
 	TARGET="/Library/Application Support/Purple/tstools.sh"
-
+	curl -fsSL -o "$TARGET" https://prpl.uk/tailscaletools
 	mkdir -p "/Library/Application Support/Purple/"
 
 	if [ -L "$SYMLINK" ]; then
