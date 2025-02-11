@@ -198,7 +198,7 @@ check_connectivity() {
 	fi
 
 	if [ "$PING2" -eq 1 ]; then
-		echo ""
+		# echo ""
 		echo "Tailscale is connected"
 		echo ""
 		#echo "*** END tailscale-intial-launch.sh ***"
