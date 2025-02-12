@@ -91,7 +91,7 @@ check_tailscale_channel() {
 }
 
 check_auth_profile() {
-	check_tailscale_channel
+	#check_tailscale_channel
 	if profiles list | grep -q "com.purplecomputing.mdm.tailscale.authkey"; then
 		#echo "Auth Profile Present"
 		# Check the configuration profile for the auth key
@@ -125,7 +125,7 @@ check_auth_profile() {
 }
 
 check_config_profile() {
-	check_tailscale_channel
+	#check_tailscale_channel
 	if profiles list | grep -q "com.purplecomputing.mdm.tailscale"; then
 		#echo "Config Profile Present"
 		# Check the configuration profile for the auth key
