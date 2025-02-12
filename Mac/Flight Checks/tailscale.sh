@@ -113,7 +113,8 @@ check_auth_profile() {
 		# Verify if the auth profile matches the installed version
 		if echo "$profile_check" | grep -q "$tsbundle"; then
 			# echo "Success: Installed version ($tsbundle) matches the configuration profile."
-			echo "Correct Auth Profile Present: "$profile_check"="$tsbundle""
+			echo "Correct Auth Profile Present"
+			#echo "Correct Auth Profile Present: "$profile_check"="$tsbundle""
 		else
 			echo "Mismatch: Installed version is $tsbundle, but profile contains a different identifier ($profile_check)."
 			echo " "
@@ -154,9 +155,10 @@ check_config_profile() {
 		# Verify if the config profile matches the installed version
 		if echo "$profile_check" | grep -q "$tsbundle"; then
 			# echo "Success: Installed version ($tsbundle) matches the configuration profile."
-			echo "Correct Config Profile Present: "$profile_check"="$tsbundle""
+			echo "Correct Config Profile Present"
+			#echo "Correct Config Profile Present: "$profile_check"="$tsbundle""
 		else
-			echo "Mismatch: Installed version is $tsbundle, but profile contains a different identifier ($profile_check)."
+			echo "Mismatch: Installed version is $tsbundle, but profile contains a different identifier  ($profile_check)."
 			echo " "
 			rm /tmp/tailscale-*.sh
 			exit 1
