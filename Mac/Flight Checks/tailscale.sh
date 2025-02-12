@@ -96,7 +96,7 @@ check_auth_profile() {
 		#echo "Auth Profile Present"
 		# Check the configuration profile for the auth key
 		local profile_check
-		profile_check=$(profiles -P | grep -A5 "com.purplecomputing.mdm.tailscale.authkey" | grep "io.tailscale.ipn")
+		profile_check=$(profiles show -type configuration -output stdout-xml | xmllint --format - | grep -A100 "com.purplecomputing.mdm.tailscale.authkey" | grep -A2 "PayloadType" | awk 'NR==2' | sed -E 's#<string>(.*)</string>#\1#' | sed 's/^[ \t]*//')
 
 		if [[ -z "$profile_check" ]]; then
 			echo "Error: No Tailscale identifier found in the configuration profile."
@@ -130,7 +130,7 @@ check_config_profile() {
 		#echo "Config Profile Present"
 		# Check the configuration profile for the auth key
 		local profile_check
-		profile_check=$(profiles -P | grep -A5 "com.purplecomputing.mdm.tailscale" | grep "io.tailscale.ipn")
+		profile_check=$(profiles show -type configuration -output stdout-xml | xmllint --format - | grep -A100 "com.purplecomputing.mdm.tailscale" | grep -A2 "VPNSubType" | awk 'NR==2' | sed -E 's#<string>(.*)</string>#\1#' | sed 's/^[ \t]*//')
 
 		if [[ -z "$profile_check" ]]; then
 			echo "Error: No Tailscale identifier found in the configuration profile."
