@@ -158,7 +158,7 @@ check_config_profile() {
 			echo "Correct Config Profile Present"
 			#echo "Correct Config Profile Present: "$profile_check"="$tsbundle""
 		else
-			echo "Mismatch: Installed version is $tsbundle, but profile contains a different identifier  ($profile_check)."
+			echo "Mismatch: Installed version is $tsbundle, but profile contains a different identifier ($profile_check)."
 			echo " "
 			rm /tmp/tailscale-*.sh
 			exit 1
