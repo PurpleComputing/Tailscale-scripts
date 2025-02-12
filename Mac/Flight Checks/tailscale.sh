@@ -52,30 +52,6 @@ runAsUser() {
   fi
 }
 
-check_auth_profile() {
-	if profiles list | grep -q "com.purplecomputing.mdm.tailscale.authkey"; then
-		echo "Auth Profile Present"
-	else
-		echo "Error: Auth Profile Not Found. Script Failed."
-		#echo "*** END tailscale-intial-launch.sh ***"
-		echo " "
-		rm /tmp/tailscale-*.sh
-		exit 1
-	fi
-}
-
-check_config_profile() {
-	if profiles list | grep -q "com.purplecomputing.mdm.tailscale"; then
-		echo "Config Profile Present"
-	else
-		echo "Error: Config Profile Not Found. Script Failed."
-		#echo "*** END tailscale-intial-launch.sh ***"
-		echo " "
-		rm /tmp/tailscale-*.sh
-		exit 1
-	fi
-}
-
 check_tailscale_channel() {
 	local plist="/Applications/Tailscale.app/Contents/Info.plist"
 
@@ -113,6 +89,77 @@ check_tailscale_channel() {
 
 	echo "Tailscale channel: $tschannel"
 }
+
+check_auth_profile() {
+	check_tailscale_channel
+	if profiles list | grep -q "com.purplecomputing.mdm.tailscale.authkey"; then
+		#echo "Auth Profile Present"
+		# Check the configuration profile for the auth key
+		local profile_check
+		profile_check=$(profiles -P | grep -A5 "com.purplecomputing.mdm.tailscale.authkey" | grep "io.tailscale.ipn")
+
+		if [[ -z "$profile_check" ]]; then
+			echo "Error: No Tailscale identifier found in the configuration profile."
+			echo " "
+			rm /tmp/tailscale-*.sh
+			exit 1
+		fi
+
+		# Verify if the auth profile matches the installed version
+		if echo "$profile_check" | grep -q "$tsbundle"; then
+			# echo "Success: Installed version ($tsbundle) matches the configuration profile."
+			echo "Correct Auth Profile Present"
+		else
+			echo "Mismatch: Installed version is $tsbundle, but profile contains a different identifier."
+			echo " "
+			rm /tmp/tailscale-*.sh
+			exit 1
+		fi
+	else
+		echo "Error: Auth Profile Not Found. Script Failed."
+		#echo "*** END tailscale-intial-launch.sh ***"
+		echo " "
+		rm /tmp/tailscale-*.sh
+		exit 1
+	fi
+}
+
+check_config_profile() {
+	check_tailscale_channel
+	if profiles list | grep -q "com.purplecomputing.mdm.tailscale"; then
+		#echo "Config Profile Present"
+		# Check the configuration profile for the auth key
+		local profile_check
+		profile_check=$(profiles -P | grep -A5 "com.purplecomputing.mdm.tailscale" | grep "io.tailscale.ipn")
+
+		if [[ -z "$profile_check" ]]; then
+			echo "Error: No Tailscale identifier found in the configuration profile."
+			echo " "
+			rm /tmp/tailscale-*.sh
+			exit 1
+		fi
+
+		# Verify if the config profile matches the installed version
+		if echo "$profile_check" | grep -q "$tsbundle"; then
+			# echo "Success: Installed version ($tsbundle) matches the configuration profile."
+			echo "Correct Config Profile Present"
+		else
+			echo "Mismatch: Installed version is $tsbundle, but profile contains a different identifier."
+			echo " "
+			rm /tmp/tailscale-*.sh
+			exit 1
+		fi
+
+
+	else
+		echo "Error: Config Profile Not Found. Script Failed."
+		#echo "*** END tailscale-intial-launch.sh ***"
+		echo " "
+		rm /tmp/tailscale-*.sh
+		exit 1
+	fi
+}
+
 
 check_tailscale_installed() {
 	local app_path="/Applications/Tailscale.app"
