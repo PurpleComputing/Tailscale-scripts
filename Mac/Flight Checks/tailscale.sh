@@ -104,7 +104,12 @@ check_auth_profile() {
 			rm /tmp/tailscale-*.sh
 			exit 1
 		fi
-
+		if [[ -z "$tsbundle" ]]; then
+			echo "Error: No Tailscale identifier found on the device or in the shell. The profile is: $profile_check"
+			echo " "
+			rm /tmp/tailscale-*.sh
+			exit 1
+		fi
 		# Verify if the auth profile matches the installed version
 		if echo "$profile_check" | grep -q "$tsbundle"; then
 			# echo "Success: Installed version ($tsbundle) matches the configuration profile."
@@ -134,6 +139,13 @@ check_config_profile() {
 
 		if [[ -z "$profile_check" ]]; then
 			echo "Error: No Tailscale identifier found in the configuration profile."
+			echo " "
+			rm /tmp/tailscale-*.sh
+			exit 1
+		fi
+
+		if [[ -z "$tsbundle" ]]; then
+			echo "Error: No Tailscale identifier found on the device or in the shell. The profile is: $profile_check"
 			echo " "
 			rm /tmp/tailscale-*.sh
 			exit 1
