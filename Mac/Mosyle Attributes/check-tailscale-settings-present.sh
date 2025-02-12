@@ -28,8 +28,18 @@
 ## For Event Tick: Every start up of the Mac, Every user sign-in, Every "Device Info" update
 #####################################################################################################
 # Check if the profile with the specific Payload Identifier exists
-if profiles list | grep -q "com.purplecomputing.mdm.tailscale"; then
-	echo "Config Profile Present"
-else
-	echo "Config Profile Not Found"
-fi
+# FUNCTIONS
+DA=$(date +%s)
+curl -fsSL -o /tmp/tailscale-$DA.sh https://prpl.uk/tailscalesh
+source /tmp/tailscale-$DA.sh
+tsbundle=io.tailscale.ipn.macos # VPP
+#tsbundle=io.tailscale.ipn.macsys # STNDALONE
+
+create_tstools_sym
+check_config_profile
+#check_auth_profile
+
+####################################################################################################
+# TIDY
+rm /tmp/tailscale-$DA.sh
+echo ""
