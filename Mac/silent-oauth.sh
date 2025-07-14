@@ -209,7 +209,7 @@ else
  	curl -s https://raw.githubusercontent.com/PurpleComputing/Tailscale-scripts/main/Mac/logout-all.sh | bash
   	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --advertise-tags=tag:$TSTAG
    	sleep 1.5
-	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --advertise-tags=tag:$TSTAG
+	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --advertise-tags=tag:$TSTAG --reset
  	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --hostname "$TSUSER"
 	echo 
 fi
