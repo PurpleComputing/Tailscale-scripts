@@ -205,11 +205,11 @@ else
 		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$TSUSER"'"}'
 		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$OLDTSUSER"'"}'
 	fi
-	sleep 2.5
+	sleep 1
  	curl -s https://raw.githubusercontent.com/PurpleComputing/Tailscale-scripts/main/Mac/logout-all.sh | bash
-  	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --advertise-tags=tag:$TSTAG
-   	sleep 1.5
-	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --advertise-tags=tag:$TSTAG --reset
+  	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --advertise-tags=tag:$TSTAG --reset
+   	sleep 1
+	#runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --advertise-tags=tag:$TSTAG --reset
  	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --hostname "$TSUSER"
 	echo 
 fi
