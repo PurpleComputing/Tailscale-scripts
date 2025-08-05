@@ -128,7 +128,8 @@ if [ "$PING2" -eq "1" ]; then
  	if [ "$TSEXITNODE" == "N" ]; then
 		echo "• Exit Node NOT Enforced"
 	else
-  runAsUser defaults write com.tailscale.ipn.macsys AuthKey -string "tskey-auth-00000000" && killall cfprefsd
+ sleep 75
+  #runAsUser defaults write com.tailscale.ipn.macsys AuthKey -string "tskey-auth-00000000" && killall cfprefsd
 		if [[ -z "$TSEXITNODE" ]]; then
 			echo "• Exit Node NOT Enforced"
 		else
@@ -207,7 +208,7 @@ else
 	fi
 	sleep 1
  	curl -s https://raw.githubusercontent.com/PurpleComputing/Tailscale-scripts/main/Mac/logout-all.sh | bash
-  runAsUser defaults delete com.tailscale.ipn.macsys AuthKey && killall cfprefsd
+  #runAsUser defaults delete com.tailscale.ipn.macsys AuthKey && killall cfprefsd
   	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY?ephemeral=false&preauthorized=true" --hostname "$TSUSER" --advertise-tags=tag:$TSTAG --reset
    	sleep 1
  	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --hostname "$TSUSER"
