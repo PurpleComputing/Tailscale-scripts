@@ -208,9 +208,8 @@ else
 	sleep 1
  	curl -s https://raw.githubusercontent.com/PurpleComputing/Tailscale-scripts/main/Mac/logout-all.sh | bash
   runAsUser defaults delete com.tailscale.ipn.macsys AuthKey && killall cfprefsd
-  	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --advertise-tags=tag:$TSTAG --reset
+  	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY?ephemeral=false&preauthorized=true" --hostname "$TSUSER" --advertise-tags=tag:$TSTAG --reset
    	sleep 1
-	#runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY" --hostname "$TSUSER" --advertise-tags=tag:$TSTAG --reset
  	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --hostname "$TSUSER"
 	echo 
 fi
