@@ -152,7 +152,7 @@ if [ "$PING2" -eq "1" ]; then
 else
 	echo 
 	echo ATTEMPT"1:" NO AUTH AUTHENTICATING...
-	# killall Tailscale
+	killall Tailscale
 	sleep 3
 	runAsUser osascript -e 'tell application "Tailscale"' -e 'activate' -e 'end tell'
 	sleep 6
