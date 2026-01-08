@@ -86,7 +86,18 @@ fi
 
 runAsUser defaults write io.tailscale.ipn.macos TailscaleOnboardingSeen 1
 runAsUser defaults write io.tailscale.ipn.macos TailscaleStartOnLogin 1
-defaults write io.tailscale.ipn.macos ManagedByOrganizationName "Purple Computing"  
+runAsUser defaults write io.tailscale.ipn.macos ManagedByOrganizationName "Purple Computing"  
+
+runAsUser defaults write io.tailscale.ipn.macsys TailscaleOnboardingSeen 1
+runAsUser defaults write io.tailscale.ipn.macsys TailscaleStartOnLogin 1
+runAsUser defaults write io.tailscale.ipn.macsys ManagedByOrganizationName "Purple Computing"  
+
+
+defaults write io.tailscale.ipn.macos ExitNodeID auto:any
+defaults write io.tailscale.ipn.macsys ExitNodeID auto:any
+defaults write io.tailscale.ipn.macsys ExitNode.AllowOverride true   
+defaults write io.tailscale.ipn.macsos ExitNode.AllowOverride true   
+
 
 sleep 3
 
@@ -125,18 +136,18 @@ if [ "$PING2" -eq "1" ]; then
 	TSMHostname="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $2}' | awk -F'.' '{print $1}')"
 	TSMIP="$(runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale status | head -n 1 | awk '{print $1}')"
 	echo "• User is Authenticated"
- 	if [ "$TSEXITNODE" == "N" ]; then
-		echo "• Exit Node NOT Enforced"
-	else
- sleep 75
-  #runAsUser defaults write com.tailscale.ipn.macsys AuthKey -string "tskey-auth-00000000" && killall cfprefsd
-		if [[ -z "$TSEXITNODE" ]]; then
-			echo "• Exit Node NOT Enforced"
-		else
-			echo "• Exit Node Enforced"
-			runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --exit-node=$TSEXITNODE
-		fi
-	fi
+ # 	if [ "$TSEXITNODE" == "N" ]; then
+	# 	echo "• Exit Node NOT Enforced"
+	# else
+sleep 20
+ #  #runAsUser defaults write com.tailscale.ipn.macsys AuthKey -string "tskey-auth-00000000" && killall cfprefsd
+	# 	if [[ -z "$TSEXITNODE" ]]; then
+	# 		echo "• Exit Node NOT Enforced"
+	# 	else
+	# 		echo "• Exit Node Enforced"
+	# 		runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --exit-node=$TSEXITNODE
+	# 	fi
+	# fi
 	echo 
 	echo NO INTERVENTION WAS NEEDED
 	 echo
