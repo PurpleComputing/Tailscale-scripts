@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "____________________________________________"
-echo "Start: TAILSCALE SILENT AUTH SCRIPT"
+echo "Start: TAILSCALE SILENT AUTH SCRIPT AUTO ANY EXIT NODE"
 ###############################################################################################
 #
 #                                                        ******
