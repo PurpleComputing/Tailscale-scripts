@@ -26,6 +26,21 @@ DT0=$(date "+%D %T")
 echo "Execution Record for $DT0"
 echo 
 
+runAsUser defaults write io.tailscale.ipn.macos TailscaleOnboardingSeen 1
+runAsUser defaults write io.tailscale.ipn.macos TailscaleStartOnLogin 1
+runAsUser defaults write io.tailscale.ipn.macos ManagedByOrganizationName "Purple Computing"  
+
+runAsUser defaults write io.tailscale.ipn.macsys TailscaleOnboardingSeen 1
+runAsUser defaults write io.tailscale.ipn.macsys TailscaleStartOnLogin 1
+runAsUser defaults write io.tailscale.ipn.macsys ManagedByOrganizationName "Purple Computing"  
+
+
+defaults write io.tailscale.ipn.macos ExitNodeID auto:any
+defaults write io.tailscale.ipn.macsys ExitNodeID auto:any
+defaults write io.tailscale.ipn.macsys ExitNode.AllowOverride true   
+defaults write io.tailscale.ipn.macsos ExitNode.AllowOverride true   
+
+
 # SOURCES USER INFO FOR RUNASUSER COMMAND BELOW
 currentUser=$( echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }' )
 uid=$(id -u "$currentUser")
@@ -83,21 +98,6 @@ else
   echo 
   exit 1
 fi
-
-runAsUser defaults write io.tailscale.ipn.macos TailscaleOnboardingSeen 1
-runAsUser defaults write io.tailscale.ipn.macos TailscaleStartOnLogin 1
-runAsUser defaults write io.tailscale.ipn.macos ManagedByOrganizationName "Purple Computing"  
-
-runAsUser defaults write io.tailscale.ipn.macsys TailscaleOnboardingSeen 1
-runAsUser defaults write io.tailscale.ipn.macsys TailscaleStartOnLogin 1
-runAsUser defaults write io.tailscale.ipn.macsys ManagedByOrganizationName "Purple Computing"  
-
-
-defaults write io.tailscale.ipn.macos ExitNodeID auto:any
-defaults write io.tailscale.ipn.macsys ExitNodeID auto:any
-defaults write io.tailscale.ipn.macsys ExitNode.AllowOverride true   
-defaults write io.tailscale.ipn.macsos ExitNode.AllowOverride true   
-
 
 sleep 3
 
