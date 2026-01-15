@@ -73,6 +73,8 @@ runAsUser() {
 if [ -d "$DIR" ]; then
   ### Take action if $DIR exists ###
   echo "• $APPNA is installed."
+  app="/Applications/Tailscale.app"; ver=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Contents/Info.plist" 2>/dev/null || echo "unknown")
+  echo "• Tailscale $ver ($( [ -f "$app/Contents/_MASReceipt/receipt" ] && echo "Mac App Store" || echo "Standalone" ))"
 else
   ###  Control will jump here if $DIR does NOT exists ###
   echo 
