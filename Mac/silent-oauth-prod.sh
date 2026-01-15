@@ -30,6 +30,9 @@ echo
 currentUser=$( echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }' )
 uid=$(id -u "$currentUser")
 
+echo "• Running as User: $currentUser with id: $uid"
+
+
 MODEL_INFO=$(system_profiler SPHardwareDataType | grep "Model Name" | sed 's/^ *//')
 PRETTY_MODEL=${MODEL_INFO/"Model Name: "/}
 SERIAL_INFO=$(system_profiler SPHardwareDataType | grep "Serial Number (system)" | sed 's/^ *//')
