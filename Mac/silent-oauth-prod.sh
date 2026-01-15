@@ -209,8 +209,9 @@ else
 		curl -s --request POST "$HOOKHELPER" -H "Content-Type: application/json; charset=UTF-8" -d '{"tailnet": "'"$TAILSCALENET"'", "apikey": "'"$TAILSCALEAPIKEY"'", "targetname": "'"$OLDTSUSER"'"}'
 	fi
 	sleep 1
- 	curl -s https://raw.githubusercontent.com/PurpleComputing/Tailscale-scripts/main/Mac/logout-all.sh | bash
+ 	#curl -s https://raw.githubusercontent.com/PurpleComputing/Tailscale-scripts/main/Mac/logout-all.sh | bash
   #runAsUser defaults delete com.tailscale.ipn.macsys AuthKey && killall cfprefsd
+  networksetup -setv6off Wi-Fi
   	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale up --authkey "$TAILSCALEAUTHKEY?ephemeral=false&preauthorized=true" --hostname "$TSUSER" --advertise-tags=tag:$TSTAG --reset
    	sleep 1
  	runAsUser /Applications/Tailscale.app/Contents/MacOS/Tailscale set --hostname "$TSUSER"
